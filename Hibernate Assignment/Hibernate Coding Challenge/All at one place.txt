@@ -1,0 +1,81 @@
+Hibernate Coding challenge 1
+
+Question) 
+         Hibernate CRUDQ Operations.
+Perform the following steps.
+1) SetUp Hibernate Project (add dependencies hibernate and mysqlConnector)
+2) Configure hibernate.cfg.xml file
+3) Create Teacher Pojo class with the following fields
+    a) id 
+    b) f_Name
+    c) l_Name
+    d) email
+4) Perform Insert, Update, Read, Query, and Delete operations, using SessionFactory and session objects.
+
+
+
+==========================================================================================================
+
+One to one Bidirectional
+Write the code for the following operations in the database using hibernate ORM with java.
+Students have a specific address, we are required to store the student and their address and may remove the same.
+1.	Create a Student table and an Address table with the proper Bidirectional one to one association.
+2.	Fetch the student details with the help of given address
+3.	Remove an Address Record from the database along with the cascaded effect on Students.
+
+
+=> here it's similar to unidirectional, only difference is that in the address class you need to create a new Student object
+and have to add the annotation @OneToOne(cascade = CascadeType.ALL, mappedBy="address")
+
+also maybe inorder to remove the persistance exception, have to remove the getter and setter for the primary ids.
+
+
+==========================================================================================================
+One to one UNIdirectional
+
+Write the code for the following operations in the database using hibernate ORM with java.
+Students have a specific address, we are required to store the student and their address and may remove the same.
+1.	Create a Student table and an Address table with one to one unidirectional association.
+2.	Insert data into Student along with the required Address.
+3.	Remove a Student from the database with the cascade effect on Address table.
+
+
+=> Simply create the Student class, there create the object of Address and do the one to one mapping with the cascading effect
+=> Create the Address class there we don't need to mention anything for one to one as cascading will take care of everything, 
+insert and delete operation will happen automatically.
+
+
+
+==========================================================================================================
+One to MANY Bidirectional
+
+Write the code for the following operations in the database using hibernate ORM with java.
+A Student can enroll in different and more than one courses, so we are required to store the student and course 
+details in the database and may remove the same based on the need.
+1.	Create a Student table and a course table with the proper Bidirectional one to many associations.
+2.	Insert data into Student along with data in the courses.
+3.	Remove a Course from the database without affecting students.
+
+
+==> Here in order to perform one to many, we need to first of all use the cascade so that while performing deletetion/insertion
+all child entries of parent(PK) will be added or deleted in other child table.
+
+@OneToMany(fetch=FetchType.EAGER,cascade = CascadeType.ALL, orphanRemoval = true)
+@JoinColumn(name = "student_id")
+List<Course4> courses;
+
+@ManyToOne
+@JoinColumn(name = "student_id")	
+private Student4 student;
+
+
+==========================================================================================================
+MANY to MANY 
+
+Write the code for the following operations in the database using hibernate ORM with java.
+An Employee can be assigned to more than one project and the same is true for a project as a project can also 
+be assigned to more than one employee.
+
+1.	Create an Employee table and a project table with the Bidirectional many to many associations.
+2.	Insert data into the Employee along with the details of the project assigned to that employee.
+3.	Fetch all employee names for a given project Id and vice versa for an employee.
